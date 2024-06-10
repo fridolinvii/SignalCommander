@@ -1,11 +1,23 @@
 #bin/bash
 
 
-##################################################################3
-# Create the file if it doesn't exist
-touch $URL
-touch $LOG_FILE
+#################################################################
+# SET VARIABLES
+#################################################################
+# Where the messages are received
+RECEIVED_MESSAGES_FILE=$SCRIPT_DIR"/tmp/received_messages.json"
+# commands and url extract from signal
+URL=$SCRIPT_DIR"/tmp/url.txt"
+# which is the file which is send back to the signal group
+LOG_FILE=$SCRIPT_DIR"/tmp/transmission.txt"
+# cheatsheet file
+CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.txt"
+#################################################################
+##################################################################
 
+
+touch $URL
+timestamp_echo > $LOG_FILE
 
 
 # Function to check the status of transmission-cli processes
@@ -104,7 +116,7 @@ fi
 #check_status
 transmission-remote -l 
 
-# Send a message to the Signal group
 
 
+# remove tmp files
 rm $URL $LOG_FILE $RECEIVED_MESSAGES_FILE

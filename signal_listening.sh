@@ -6,24 +6,29 @@ SCRIPT_PATH=$(readlink -f "$0" 2>/dev/null || realpath "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 echo "Absolute path to .env:  $SCRIPT_DIR""/.env"
 
+
+
+# Function to print messages with timestamp
+timestamp_echo() {
+  echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
+
+
+
+
+
+
+
+
+
+
+
 # include the config file
 source $SCRIPT_DIR"/.env"
 
-#################################################################
-# SET VARIABLES
-#################################################################
-# Where the messages are received
-RECEIVED_MESSAGES_FILE=$SCRIPT_DIR"/tmp/received_messages.json"
-# commands and url extract from signal
-URL=$SCRIPT_DIR"/tmp/url.txt"
-# which is the file which is send back to the signal group
-LOG_FILE=$SCRIPT_DIR"/tmp/transmission.txt"
-# cheatsheet file
-CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.txt"
-#################################################################
-
 
 # Execute signal-cli receive command and save the output to a file
+timestamp_echo
 echo "Listening for messages..."
 signal-cli --output=json receive > $RECEIVED_MESSAGES_FILE
 

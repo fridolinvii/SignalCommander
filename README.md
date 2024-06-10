@@ -1,3 +1,16 @@
+# SignalCommander
+
+This gives to some extend a step by step explanation, how you can control your server with the Messagener app Signal. 
+Currently, you can send a message with a torrent link and it will download this torrent on your server. In addition you can check status, etc of the torrent app.
+
+
+## Installing 
+
+### installing signal-cli
+I follwed the description to install it from this GitHub repository: [signal-cli](https://github.com/AsamK/signal-cli).
+
+
+
 
 # Change username in these files to access the folder you choose
 sudo nano /etc/init.d/transmission-daemon
