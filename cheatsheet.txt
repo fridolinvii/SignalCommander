@@ -1,0 +1,5 @@
+magnet: ...     -   dowload torrent
+delete_all      -   delete all torrents
+delete_2,3      -   delete torrent 2,3
+status          -   check status
+help            -   give commands
