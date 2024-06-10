@@ -12,18 +12,18 @@ There are two option you can use signal-cli. Either you register a new phone num
 
 ##### Register new number
 You can register your number:
-"""
+```
 signal-cli -a [YOUR_NUMBER] register
-"""
+```
 You will recive a CODE per SMS and you can verify it with the command:
-'''
+```
 signal-cli -a [YOUR_NUMBER] verify [CODE]
-'''
+```
 
 ##### Linked devices
-'''
+```
 
-'''
+```
 
 
 
