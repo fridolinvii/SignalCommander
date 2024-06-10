@@ -92,8 +92,9 @@ if grep -q "delete_" $URL; then
   tokenid=$(cat $URL | grep -oP 'delete_\K.*')
   echo "Deleting torrents with tokenid: $tokenid" >> $LOG_FILE
   transmission-remote -t $tokenid -r
-  send_transmission=true
   sleep 1
+  transmission-remote -l >> $LOG_FILE
+  send_transmission=true
 fi
 
 
@@ -122,4 +123,4 @@ transmission-remote -l
 
 
 # remove tmp files
-rm $URL $LOG_FILE 
+rm $URL $LOG_FILE $RECEIVED_MESSAGES_FILE
