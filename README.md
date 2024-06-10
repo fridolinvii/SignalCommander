@@ -61,6 +61,8 @@ sudo nano /etc/init.d/transmission-daemon
 
 
 
+
+
 # TO DO: 
 * How to find signal group
 * setup automation of automation with crontab
