@@ -28,7 +28,7 @@ signal-cli link -n "[NAME]"
 This will generate a link. Create a QR-Code from this link and scan it with you mobile device. 
 Do not generate the QR-Code online, but rather generate it on your local machine if possible.
 
-### ***install torrent client**
+### **install torrent client**
 To install the torrent client use
 ```
 sudo apt install transmission-cli transmission-daemon
@@ -54,14 +54,8 @@ And change the owner of the folder to:
 sudo chown debian-transmission:debian-transmission -R [/path/to/folder]
 ```
 
-# Change username in these files to access the folder you choose
-sudo nano /etc/init.d/transmission-daemon
 
 
-# change here the username to yours + add your username to the groupe transmission-daemon, and change the folder permission accodingly
-
-
-https://askubuntu.com/questions/221081/permission-denied-when-downloading-with-transmission-daemon
-"rpc-authentication-required": true, -> change to false
-sudo nano /etc/transmission-daemon/settings.json
-sudo chown debian-transmission:debian-transmission -R Videos
+# TO DO: 
+* How to find signal group
+* setup automation of automation with crontab
