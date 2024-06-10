@@ -1,11 +1,10 @@
 #bin/bash
 
+source 
 
 #################################################################
 # SET VARIABLES
 #################################################################
-# Where the messages are received
-RECEIVED_MESSAGES_FILE=$SCRIPT_DIR"/tmp/received_messages.json"
 # commands and url extract from signal
 URL=$SCRIPT_DIR"/tmp/url.txt"
 # which is the file which is send back to the signal group
@@ -16,9 +15,12 @@ CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.txt"
 ##################################################################
 
 
+
+
+
 touch $URL
 timestamp_echo > $LOG_FILE
-
+send_transmission=false
 
 # Function to check the status of transmission-cli processes
 check_status() {
@@ -44,7 +46,6 @@ check_status() {
 jq -r --arg groupId "$TARGET_GROUP_ID" '
   .envelope.syncMessage.sentMessage | select(.groupInfo.groupId == $groupId) | .message
 ' $RECEIVED_MESSAGES_FILE | while IFS= read -r message; do
-  # Extract the first 3 letters and the last 2 letters
 
   echo "$message" >> $URL
 
@@ -61,12 +62,6 @@ jq -r --arg groupId "$TARGET_GROUP_ID" '
 # load the url from the file
 message=$(cat $URL)
 
-# if message is empty, exit
-if [ -z "$message" ]; then
-  echo "No message found"
-  exit 1
-fi
-
 # Loop through each magnet link
 while IFS= read -r magnet_link; do
   # Start the download with transmission-cli
@@ -75,6 +70,7 @@ while IFS= read -r magnet_link; do
   if [[ $magnet_link == *"magnet"* ]]; then
       echo "Downloading: "${magnet_link:0:10}...${magnet_link: -2}"" >> $LOG_FILE
       transmission-remote --add "$magnet_link" >> $LOG_FILE
+      send_transmission=true
     continue
   fi
 
@@ -96,6 +92,7 @@ if grep -q "delete_" $URL; then
   tokenid=$(cat $URL | grep -oP 'delete_\K.*')
   echo "Deleting torrents with tokenid: $tokenid" >> $LOG_FILE
   transmission-remote -t $tokenid -r
+  send_transmission=true
   sleep 1
 fi
 
@@ -105,13 +102,19 @@ fi
 if grep -q "help" $URL; then
   echo "Sending Cheatsheet" >> $LOG_FILE
   signal-cli send -g $TARGET_GROUP_ID -m "[Bot] Here is a Cheatsheet" -a $CHEATSHEET_FILE
-else
-  if grep -q "status" $URL; then
-    echo "Checking status of torrents" >> $LOG_FILE
-  fi
+  file=$CHEATSHEET_FILE
+fi
+if grep -q "status" $URL; then
+  echo "Checking status of torrents" >> $LOG_FILE
   transmission-remote -l >> $LOG_FILE
+  send_transmission=true
+fi
+
+
+if [[ "$send_transmission" == true ]]; then
   signal-cli send -g $TARGET_GROUP_ID -m "[Bot] Here is the Report" -a $LOG_FILE
 fi
+
 
 #check_status
 transmission-remote -l 
@@ -119,4 +122,4 @@ transmission-remote -l
 
 
 # remove tmp files
-rm $URL $LOG_FILE $RECEIVED_MESSAGES_FILE
+rm $URL $LOG_FILE 

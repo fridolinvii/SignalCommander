@@ -53,9 +53,15 @@ And change the owner of the folder to:
 ```
 sudo chown debian-transmission:debian-transmission -R [/path/to/folder]
 ```
+Or change the *USER* in 
+```
+sudo nano /etc/init.d/transmission-daemon
+```
+
 
 
 
 # TO DO: 
 * How to find signal group
 * setup automation of automation with crontab
+* sudo nano /etc/init.d/transmission-daemon
