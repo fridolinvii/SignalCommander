@@ -8,7 +8,22 @@ Currently, you can send a message with a torrent link and it will download this 
 
 ### installing signal-cli
 I follwed the description to install it from this GitHub repository: [signal-cli](https://github.com/AsamK/signal-cli).
+There are two option you can use signal-cli. Either you register a new phone number or you add it to your **Linked devices** on your phone.
 
+##### Register new number
+You can register your number:
+'''
+signal-cli -a [YOUR_NUMBER] register
+'''
+You will recive a CODE per SMS and you can verify it with the command:
+'''
+signal-cli -a [YOUR_NUMBER] verify [CODE]
+'''
+
+##### Linked devices
+'''
+
+'''
 
 
 
