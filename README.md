@@ -4,9 +4,9 @@ This gives to some extend a step by step explanation, how you can control your s
 Currently, you can send a message with a torrent link and it will download this torrent on your server. In addition you can check status, etc of the torrent app.
 
 
-## Installing 
+## 1. Installing 
 
-### installing signal-cli
+### 1.1 installing signal-cli
 I follwed the description to install it from this GitHub repository: [signal-cli](https://github.com/AsamK/signal-cli) and [https://oren.github.io/articles/signal-terminal/](https://oren.github.io/articles/signal-terminal/).
 There are two option you can use signal-cli. Either you register a new phone number or you add it to your **Linked devices** on your phone.
 
@@ -28,7 +28,7 @@ signal-cli link -n "[NAME]"
 This will generate a link. Create a QR-Code from this link and scan it with you mobile device. 
 Do not generate the QR-Code online, but rather generate it on your local machine if possible.
 
-### **install torrent client**
+### 1.2 Install torrent client
 To install the torrent client use
 ```
 sudo apt install transmission-cli transmission-daemon
