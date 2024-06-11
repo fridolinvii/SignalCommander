@@ -109,7 +109,7 @@ crontab -e
 ```
 and add a following line:
 ```
-*/5 * * * * /[PATH]]/signal_listening.sh >> /[PATH]/signal_listening_crontab.log 2>&1 &
+*/5 * * * * /[PATH]/signal_listening.sh >> /[PATH]/signal_listening_crontab.log 2>&1 &
 ```
 Change the *PATH* accordingly. A logfile is created under the name `signal_listening_crontab.log`. Every 5min the bash-script is executed.
 
@@ -133,17 +133,3 @@ Each message should only contain one command, or an error may arrise. If you don
 | `delete_2,3`    | Delete torrents 2 and 3.               |
 
 
- <!---
-
-##### To Dos
-* reboot server
-* check for updates for signal-cli
-* "incomplete-dir-enabled": true,
-* sudo transmission-remote -t all --[start|stop]
-* sudo addgroup transmission-daemon
-* sudo useradd transmission-daemon -g transmission-daemon
-* chmod 755
-
-sudo systemctl start transmission-daemon
-* stop edit start
---->
