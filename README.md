@@ -120,21 +120,19 @@ In the Signal groupe you created, you can send commands, which will be read and 
 Each message should only contain one command, or an error may arrise. If you don't recieve a message, either the command is unvalid or there is an error.
 
 ### 2.1 General Commands
-|----------------|----------------------------------------|
 | Command        | Description                            |
 |----------------|----------------------------------------|
 | `help`         | Display available commands.            |
-|----------------|----------------------------------------|
+
 
 ### 2.2 Torrent Commands
-|-----------------|----------------------------------------|
 | Command         | Description                            |
 |-----------------|----------------------------------------|
 | `magnet:?xt=...`| Download torrent using a magnet link.  |
 | `status`        | Check the status of current torrents.  |
 | `delete_all`    | Delete all torrents.                   |
 | `delete_2,3`    | Delete torrents 2 and 3.               |
-|-----------------|----------------------------------------|
+
 
 
 
