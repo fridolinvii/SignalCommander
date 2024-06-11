@@ -1,24 +1,14 @@
 #bin/bash
 
-source 
 
 #################################################################
 # SET VARIABLES
 #################################################################
-# commands and url extract from signal
-URL=$SCRIPT_DIR"/tmp/url.txt"
 # which is the file which is send back to the signal group
 LOG_FILE=$SCRIPT_DIR"/tmp/transmission.txt"
-# cheatsheet file
-CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.txt"
 #################################################################
 ##################################################################
 
-
-
-
-
-touch $URL
 timestamp_echo > $LOG_FILE
 send_transmission=false
 
@@ -42,22 +32,6 @@ check_status() {
 }
 
 
-# Parse the JSON file and loop through each message
-jq -r --arg groupId "$TARGET_GROUP_ID" '
-  .envelope.syncMessage.sentMessage | select(.groupInfo.groupId == $groupId) | .message
-' $RECEIVED_MESSAGES_FILE | while IFS= read -r message; do
-
-  echo "$message" >> $URL
-
-  short_message="${message:0:30}"
-
-  # Display the short message
-  echo "Message: $short_message"
-
-
-  done
-
-
 
 # load the url from the file
 message=$(cat $URL)
@@ -70,6 +44,7 @@ while IFS= read -r magnet_link; do
   if [[ $magnet_link == *"magnet"* ]]; then
       echo "Downloading: "${magnet_link:0:10}...${magnet_link: -2}"" >> $LOG_FILE
       transmission-remote --add "$magnet_link" >> $LOG_FILE
+      sleep 1
       send_transmission=true
     continue
   fi
@@ -98,13 +73,6 @@ if grep -q "delete_" $URL; then
 fi
 
 
-
-
-if grep -q "help" $URL; then
-  echo "Sending Cheatsheet" >> $LOG_FILE
-  signal-cli send -g $TARGET_GROUP_ID -m "[Bot] Here is a Cheatsheet" -a $CHEATSHEET_FILE
-  file=$CHEATSHEET_FILE
-fi
 if grep -q "status" $URL; then
   echo "Checking status of torrents" >> $LOG_FILE
   transmission-remote -l >> $LOG_FILE

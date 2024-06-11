@@ -3,7 +3,7 @@ This provides a step-by-step guide on how to control your server using the Signa
 
 Currently, you can send a message containing a torrent link, and the server will download the torrent. Additionally, you can check the status and perform other operations on the torrent application.
 
-## 1. Installing 
+## 1. Setup & Installation 
 
 First Download the Github repository and enter it:
 ```
@@ -75,7 +75,7 @@ And change the owner of the folder to:
 ```
 sudo chown debian-transmission:debian-transmission -R [/path/to/folder]
 ```
-Or change the *USER* in 
+Or change the *USER* in (unclear if this works)
 ```
 sudo nano /etc/init.d/transmission-daemon
 ```
@@ -85,6 +85,7 @@ Enable and start *transmission-daemon*
 ```
 sudo systemctl enable transmission-daemon
 sudo systemctl start transmission-daemon
+sudo service transmission-daemon start
 ```
 To check the status and error of *transmission-daemon*
 ```
@@ -96,10 +97,47 @@ If you edit */etc/transmission-daemon/settings.json* or/and */etc/init.d/transmi
 sudo systemctl [restart|stop|start] transmission-daemon
 ```
 
+### 1.5 Automation 
+If you send a message in the groupe, you can run the script:
+```
+./signal_listening.sh
+```
+This will check for new Signal messages, filter the ones which were used in the groupe, and are further processed. See further down for the commands.
+
+If you want to automate the process:
+```
+crontab -e
+```
+and add a following line:
+```
+*/5 * * * * /[PATH]]/signal_listening.sh >> /[PATH]/signal_listening_crontab.log 2>&1 &
+```
+Change the *PATH* accordingly. A logfile is created under the name `signal_listening_crontab.log`. Every 5min the bash-script is executed.
+
+
+## 2. Commands
+In the Signal groupe you created, you can send commands, which will be read and executed. You will recieve a txt file with with the report.
+Each message should only contain one command, or an error may arrise. If you don't recieve a message, either the command is unvalid or there is an error.
+
+### 2.1 General Commands
+|---------------------------------------------------------|
+| Command        | Description                            |
+|---------------------------------------------------------|
+| `help`         | Display available commands.            |
+|---------------------------------------------------------|
+
+### 2.2 Torrent Commands
+|----------------------------------------------------------|
+| Command         | Description                            |
+|-----------------|----------------------------------------|
+| `magnet:?xt=...`| Download torrent using a magnet link.  |
+| `status`        | Check the status of current torrents.  |
+| `delete_all`    | Delete all torrents.                   |
+| `delete_2,3`    | Delete torrents 2 and 3.               |
+|----------------------------------------------------------|
 
 
 
-# TO DO: 
-* How to find signal group
-* setup automation of automation with crontab
-* sudo nano /etc/init.d/transmission-daemon
+##### To Dos
+* reboot server
+* check for updates for signal-cli

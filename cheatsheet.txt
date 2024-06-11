@@ -1,5 +1,18 @@
-magnet: ...     -   dowload torrent
-delete_all      -   delete all torrents
-delete_2,3      -   delete torrent 2,3
-status          -   check status
-help            -   give commands
+# Signal Bot Commands
+
+## General Commands
+|---------------------------------------------------------|
+| Command        | Description                            |
+|---------------------------------------------------------|
+| `help`         | Display available commands.            |
+|---------------------------------------------------------|
+
+## Torrent Commands
+|----------------------------------------------------------|
+| Command         | Description                            |
+|-----------------|----------------------------------------|
+| `magnet:?xt=...`| Download torrent using a magnet link.  |
+| `status`        | Check the status of current torrents.  |
+| `delete_all`    | Delete all torrents.                   |
+| `delete_2,3`    | Delete torrents 2 and 3.               |
+|----------------------------------------------------------|
