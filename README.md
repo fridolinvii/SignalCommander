@@ -64,7 +64,7 @@ find *"rpc-authentication-required"* and set it to false:
 ```
 "rpc-authentication-required": false,
 ```
-And if you want to change the download folder to */path/to/folder* edit:
+ <!---And if you want to change the download folder to */path/to/folder* edit:
 ```
 "download-dir": "/path/to/folder",
 ```
@@ -79,7 +79,7 @@ Or change the *USER* in (unclear if this works)
 ```
 sudo nano /etc/init.d/transmission-daemon
 ```
-
+--->
 ### 1.4 Activate autostart transmission
 Enable and start *transmission-daemon*
 ```
@@ -89,12 +89,11 @@ sudo service transmission-daemon start
 ```
 To check the status and error of *transmission-daemon*
 ```
-sudo systemctl start transmission-daemon
+systemctl status transmission-daemon
 ```
-
-If you edit */etc/transmission-daemon/settings.json* or/and */etc/init.d/transmission-daemon* you either need to stop and start the *transmission-daemon*, or restart the *transmission-daemon*
+If you edit */etc/transmission-daemon/settings.json* or/and */etc/init.d/transmission-daemon* you need to stop *transmission-daemon*, edit the file and then start the *transmission-daemon*
 ```
-sudo systemctl [restart|stop|start] transmission-daemon
+sudo systemctl [stop|start] transmission-daemon
 ```
 
 ### 1.5 Automation 
@@ -134,8 +133,17 @@ Each message should only contain one command, or an error may arrise. If you don
 | `delete_2,3`    | Delete torrents 2 and 3.               |
 
 
-
+ <!---
 
 ##### To Dos
 * reboot server
 * check for updates for signal-cli
+* "incomplete-dir-enabled": true,
+* sudo transmission-remote -t all --[start|stop]
+* sudo addgroup transmission-daemon
+* sudo useradd transmission-daemon -g transmission-daemon
+* chmod 755
+
+sudo systemctl start transmission-daemon
+* stop edit start
+--->
