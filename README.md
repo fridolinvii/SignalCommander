@@ -56,14 +56,7 @@ To install the torrent client use
 sudo apt install transmission-cli transmission-daemon
 ```
 
-You need to do some additional changes:
-```
-sudo nano /etc/transmission-daemon/settings.json
-```
-find *"rpc-authentication-required"* and set it to false:
-```
-"rpc-authentication-required": false,
-```
+
  <!---And if you want to change the download folder to */path/to/folder* edit:
 ```
 "download-dir": "/path/to/folder",
@@ -91,9 +84,21 @@ To check the status and error of *transmission-daemon*
 ```
 systemctl status transmission-daemon
 ```
-If you edit */etc/transmission-daemon/settings.json* or/and */etc/init.d/transmission-daemon* you need to stop *transmission-daemon*, edit the file and then start the *transmission-daemon*
+You need to do some additional changes. TO do so stop the *transmission-daemon*
 ```
-sudo systemctl [stop|start] transmission-daemon
+sudo systemctl start transmission-daemon
+```
+Edit the file
+```
+sudo nano /etc/transmission-daemon/settings.json
+```
+find *"rpc-authentication-required"* and set it to false:
+```
+"rpc-authentication-required": false,
+```
+and start the *transmission-daemon*
+```
+sudo systemctl start transmission-daemon
 ```
 
 ### 1.5 Automation 
