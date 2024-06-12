@@ -84,7 +84,7 @@ To check the status and error of *transmission-daemon*
 ```
 systemctl status transmission-daemon
 ```
-You need to do some additional changes. T do so stop the *transmission-daemon*
+You need to do some additional changes. To do so stop the *transmission-daemon*
 ```
 sudo systemctl stop transmission-daemon
 ```
