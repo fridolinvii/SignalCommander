@@ -18,7 +18,7 @@ RECEIVED_MESSAGES_FILE=$SCRIPT_DIR"/tmp/received_messages.json"
 # commands and url extract from signal
 URL=$SCRIPT_DIR"/tmp/url.txt"
 # cheatsheet file
-CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.txt"
+CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.html"
 ################################################################
 
 
@@ -58,10 +58,8 @@ jq -r --arg groupId "$TARGET_GROUP_ID" '
 
   echo "$message" >> $URL
 
-  short_message="${message:0:30}"
-
   # Display the short message
-  echo "Message: $short_message"
+  echo "Message: ${message:0:30}"
   done
 
 

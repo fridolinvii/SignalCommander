@@ -35,16 +35,16 @@ This will generate a link. Create a QR-Code from this link and scan it with you 
 Do not generate the QR-Code online, but rather generate it on your local machine if possible.
 
 
-### 1.2 Signal Groupe
-Create a signal groupe. You can check all the groups you have access to with:
+### 1.2 Signal Group
+Create a signal Group. You can check all the groups you have access to with:
 ```
 signal-cli listGroups
 ```
-Find your Groupe name, and copy the Id into 
+Find your Group name, and copy the Id into 
 ```
 nano .env
 ```
-under the variabel name
+under the variable name
 ```
 TARGET_GROUP_ID=[Id]
 ```
@@ -102,11 +102,11 @@ sudo systemctl start transmission-daemon
 ```
 
 ### 1.5 Automation 
-If you send a message in the groupe, you can run the script:
+If you send a message in the Group, you can run the script:
 ```
 ./signal_listening.sh
 ```
-This will check for new Signal messages, filter the ones which were used in the groupe, and are further processed. See further down for the commands.
+This will check for new Signal messages, filter the ones which were used in the Group, and are further processed. See further down for the commands.
 
 If you want to automate the process:
 ```
@@ -120,7 +120,7 @@ Change the *PATH* accordingly. A logfile is created under the name `signal_liste
 
 
 ## 2. Commands
-In the Signal groupe you created, you can send commands, which will be read and executed. You will recieve a txt file with with the report.
+In the Signal Group you created, you can send commands, which will be read and executed. You will recieve a txt file with with the report.
 Each message should only contain one command, or an error may arrise. If you don't recieve a message, either the command is unvalid or there is an error.
 
 ### 2.1 General Commands
