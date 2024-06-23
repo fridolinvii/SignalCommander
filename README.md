@@ -102,6 +102,9 @@ and start the *transmission-daemon*
 sudo systemctl start transmission-daemon
 ```
 
+### 
+
+
 ### 1.5 Automation 
 If you send a message in the Group, you can run the script:
 ```
@@ -142,8 +145,8 @@ Each message should only contain one command, or an error may arrise. If you don
 -----------------------------------------------------------------------------------------
 
 # LATEX
+Can only convert a single .zip at once. If multiple are added, it may convert a wrong one
 ```
-sudo apt-get install texlive-latex-base
-sudo apt-get install texlive-fonts-recommended
-sudo apt-get install texlive-fonts-extra
+sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-xetex texlive-science -y
+sudo apt install latexmk -y
 ```

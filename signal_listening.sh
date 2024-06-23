@@ -21,7 +21,7 @@ GROUP_ID_URL=$SCRIPT_DIR"/tmp/group_id.txt"
 # cheatsheet file
 CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.html"
 # Attachment saved
-ATTACHMENT="~/.local/share/signal-cli/attachments/"
+ATTACHMENT=~/.local/share/signal-cli/attachments/
 ################################################################
 
 
@@ -51,7 +51,7 @@ message=$(cat $RECEIVED_MESSAGES_FILE)
 if [ -z "$message" ]; then
   echo "No message found"
   rm $RECEIVED_MESSAGES_FILE
-  exit 1
+  # exit 1
 fi
 
 
@@ -104,7 +104,7 @@ source $SCRIPT_DIR"/utils/latex.sh"
 
 ################################################################
 # remove the received messages file from tmp
-rm $SCRIPT_DIR/tmp/*
+rm -r $SCRIPT_DIR/tmp/*
 
 # delete downloaded attachments
-rm -r $ATTACHMENT"/*"
+rm -r "$ATTACHMENT"*
