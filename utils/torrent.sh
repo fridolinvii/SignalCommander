@@ -89,6 +89,3 @@ fi
 transmission-remote -l 
 
 
-
-# remove tmp files
-rm $URL $LOG_FILE $RECEIVED_MESSAGES_FILE

@@ -17,6 +17,7 @@ source $SCRIPT_DIR"/utils/utils.sh"
 RECEIVED_MESSAGES_FILE=$SCRIPT_DIR"/tmp/received_messages.json"
 # commands and url extract from signal
 URL=$SCRIPT_DIR"/tmp/url.txt"
+GROUP_ID_URL=$SCRIPT_DIR"/tmp/group_id.txt"
 # cheatsheet file
 CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.html"
 ################################################################
@@ -51,23 +52,41 @@ if [ -z "$message" ]; then
   exit 1
 fi
 
-# Parse the JSON file and loop through each message
-jq -r --arg groupId "$TARGET_GROUP_ID" '
-  .envelope.syncMessage.sentMessage | select(.groupInfo.groupId == $groupId) | .message
-' $RECEIVED_MESSAGES_FILE | while IFS= read -r message; do
 
-  echo "$message" >> $URL
+# Use jq to filter messages based on group IDs
+jq -r --argjson groupIds "$TARGET_GROUP_ID" '
+  .envelope.syncMessage.sentMessage | select(.groupInfo.groupId as $gid | $groupIds | index($gid) != null) | {message: .message, groupId: .groupInfo.groupId} | @base64
+' $RECEIVED_MESSAGES_FILE | while IFS= read -r line; do
+
+  # Decode the base64 line into a JSON object
+  json=$(echo "$line" | base64 --decode)
+
+  # Extract the message and groupId from the JSON object
+  message=$(echo "$json" | jq -r '.message')
+  groupId=$(echo "$json" | jq -r '.groupId')
+
+  # Append the message to the general URL file
+  echo "$message" >> "$URL"
+
+  # Append the message to the corresponding groupId file
+  echo "$groupId" >> "$GROUP_ID_URL"
 
   # Display the short message
   echo "Message: ${message:0:30}"
-  done
+done
 
-
-# check if the message is a help message
-if cat $URL | grep -q "help"; then
-  echo "Sending Cheatsheet" >> $LOG_FILE
-  signal-cli send -g $TARGET_GROUP_ID -m "[Bot] Here is a Cheatsheet" -a $CHEATSHEET_FILE
-fi
+# Check if the message is a help message and send the cheatsheet to the corresponding group ID
+line_number=1
+while IFS= read -r message_line; do
+  if echo "$message_line" | grep -q "help"; then
+    group_id=$(sed "${line_number}q;d" "$GROUP_ID_URL")
+    if [ -n "$group_id" ]; then
+      echo "Sending Cheatsheet to $group_id" >> "$LOG_FILE"
+      signal-cli send -g "$group_id" -m "[Bot] Here is a Cheatsheet" -a "$CHEATSHEET_FILE"
+    fi
+  fi
+  line_number=$((line_number + 1))
+done < "$URL"
 ################################################################
 
 
@@ -78,8 +97,12 @@ fi
 # Torrent
 source $SCRIPT_DIR"/utils/torrent.sh"
 
+# latex
+source $SCRIPT_DIR"/utils/latex.sh"
 
 ################################################################
 # remove the received messages file from tmp
-rm $RECEIVED_MESSAGES_FILE $URL
+rm $SCRIPT_DIR/tmp/*
 
+# delete downloaded attachments
+rm -r ~/.local/share/signal-cli/attachments/*

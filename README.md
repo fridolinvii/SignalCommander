@@ -46,9 +46,10 @@ nano .env
 ```
 under the variable name
 ```
-TARGET_GROUP_ID=[Id]
+TARGET_GROUP_ID='["Id"]'
 ```
-
+If you have multiple groups:
+TARGET_GROUP_ID='["Id1","Id2",...]'
 
 ### 1.3 Install torrent client
 To install the torrent client use
@@ -138,3 +139,11 @@ Each message should only contain one command, or an error may arrise. If you don
 | `delete_2,3`    | Delete torrents 2 and 3.               |
 
 
+-----------------------------------------------------------------------------------------
+
+# LATEX
+```
+sudo apt-get install texlive-latex-base
+sudo apt-get install texlive-fonts-recommended
+sudo apt-get install texlive-fonts-extra
+```
