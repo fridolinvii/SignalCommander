@@ -35,20 +35,47 @@ check_status() {
 
 # load the url from the file
 message=$(cat $URL)
+group_id=$(cat $GROUP_ID_URL)
+
 
 # Loop through each magnet link
-while IFS= read -r magnet_link; do
+line_number=1
+while IFS= read -r message_line; do
+  # Display the message
+  echo "Message in torrent.sh: $message_line"
   # Start the download with transmission-cli
   
-  # check if "magnet" is in magnet_link
-  if [[ $magnet_link == *"magnet"* ]]; then
-      echo "Downloading: "${magnet_link:0:10}...${magnet_link: -2}"" >> $LOG_FILE
-      transmission-remote --add "$magnet_link" >> $LOG_FILE
+  # check if "magnet" is in message_line
+  if [[ $message_line == *"magnet"* ]]; then
+      echo "Downloading: "${message_line:0:10}...${message_line: -2}"" >> $LOG_FILE
+      transmission-remote --add "$message_line" >> $LOG_FILE
       sleep 1
       send_transmission=true
-    continue
+      group_id_torrent=$(sed "${line_number}q;d" "$GROUP_ID_URL")
   fi
 
+
+  ###########################################################################
+  # check if delete is in the file
+  if [[ $message_line == *"delete_"* ]]; then
+    tokenid=$(echo $message_line | grep -oP 'delete_\K.*')
+    echo "Deleting torrents with tokenid: $tokenid" >> $LOG_FILE
+    transmission-remote -t $tokenid -r
+    sleep 1
+    transmission-remote -l >> $LOG_FILE
+    send_transmission=true
+    group_id_torrent=$(sed "${line_number}q;d" "$GROUP_ID_URL")
+  fi
+
+  if [[ $message_line == *"status"* ]]; then
+    echo "Checking status of torrents" >> $LOG_FILE
+    transmission-remote -l >> $LOG_FILE
+    send_transmission=true
+    group_id_torrent=$(sed "${line_number}q;d" "$GROUP_ID_URL")
+  fi
+
+
+  line_number=$((line_number + 1))
 done < "$URL"
 
 
@@ -57,31 +84,13 @@ done < "$URL"
 ###########################################################################
 
 
-
-
-###########################################################################
-# check if delete is in the file
-
-
-if grep -q "delete_" $URL; then
-  tokenid=$(cat $URL | grep -oP 'delete_\K.*')
-  echo "Deleting torrents with tokenid: $tokenid" >> $LOG_FILE
-  transmission-remote -t $tokenid -r
-  sleep 1
-  transmission-remote -l >> $LOG_FILE
-  send_transmission=true
-fi
-
-
-if grep -q "status" $URL; then
-  echo "Checking status of torrents" >> $LOG_FILE
-  transmission-remote -l >> $LOG_FILE
-  send_transmission=true
-fi
+echo "Torrent Transmission"
+echo "$send_transmission"
+echo "$group_id_torrent"
 
 
 if [[ "$send_transmission" == true ]]; then
-  signal-cli send -g $TARGET_GROUP_ID -m "[Bot] Here is the Report" -a $LOG_FILE
+  signal-cli send -g $group_id_torrent -m "[Bot] Here is the Report" -a $LOG_FILE
 fi
 
 

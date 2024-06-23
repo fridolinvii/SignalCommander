@@ -20,6 +20,8 @@ URL=$SCRIPT_DIR"/tmp/url.txt"
 GROUP_ID_URL=$SCRIPT_DIR"/tmp/group_id.txt"
 # cheatsheet file
 CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.html"
+# Attachment saved
+ATTACHMENT="~/.local/share/signal-cli/attachments/"
 ################################################################
 
 
@@ -105,4 +107,4 @@ source $SCRIPT_DIR"/utils/latex.sh"
 rm $SCRIPT_DIR/tmp/*
 
 # delete downloaded attachments
-rm -r ~/.local/share/signal-cli/attachments/*
+rm -r $ATTACHMENT"/*"
