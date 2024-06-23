@@ -146,6 +146,6 @@ Each message should only contain one command, or an error may arrise. If you don
 | `delete_all`    | Delete all torrents.                   |
 | `delete_2,3`    | Delete torrents 2 and 3.               |
 
-### 2.3 Latex commands
+### 2.3 Latex Commands
 Only one zip file can be converted to a PDF at a time. Attach the zip file to the message and specify which file should be converted, e.g., `main.tex`.
 
