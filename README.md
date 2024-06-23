@@ -103,8 +103,8 @@ and start the *transmission-daemon*
 sudo systemctl start transmission-daemon
 ```
 
-### 1.5 Latex Compatibility
-Install the latex on the server
+### 1.5  Compatibility
+Install LaTeX on the server
 ```
 sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-xetex texlive-science -y
 sudo apt install latexmk -y
@@ -147,6 +147,6 @@ Each message should only contain one command, or an error may arrise. If you don
 | `delete_all`    | Delete all torrents.                   |
 | `delete_2,3`    | Delete torrents 2 and 3.               |
 
-### 2.3 Latex Commands
+### 2.3 LaTeX Commands
 Only one zip file can be converted to a PDF at a time. Attach the zip file to the message and specify which file should be converted, e.g., `main.tex`.
 
