@@ -2,6 +2,7 @@
 This provides a step-by-step guide on how to control your server using the Signal messaging app.
 
 Currently, you can send a message containing a torrent link, and the server will download the torrent. Additionally, you can check the status and perform other operations on the torrent application.
+In addition, you can send LaTeX files in a zip file and convert them to a PDF.
 
 ## 1. Setup & Installation 
 
