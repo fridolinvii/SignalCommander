@@ -102,10 +102,15 @@ and start the *transmission-daemon*
 sudo systemctl start transmission-daemon
 ```
 
-### 
+### 1.5 Latex Compatibility
+Install the latex on the server
+```
+sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-xetex texlive-science -y
+sudo apt install latexmk -y
+```
 
 
-### 1.5 Automation 
+### 1.6 Automation 
 If you send a message in the Group, you can run the script:
 ```
 ./signal_listening.sh
@@ -141,12 +146,6 @@ Each message should only contain one command, or an error may arrise. If you don
 | `delete_all`    | Delete all torrents.                   |
 | `delete_2,3`    | Delete torrents 2 and 3.               |
 
+### 2.3 Latex commands
+Only one zip file can be converted to a PDF at a time. Attach the zip file to the message and specify which file should be converted, e.g., `main.tex`.
 
------------------------------------------------------------------------------------------
-
-# LATEX
-Can only convert a single .zip at once. If multiple are added, it may convert a wrong one
-```
-sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-xetex texlive-science -y
-sudo apt install latexmk -y
-```
