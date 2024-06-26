@@ -150,3 +150,10 @@ Each message should only contain one command, or an error may arrise. If you don
 ### 2.3 LaTeX Commands
 Only one zip file can be converted to a PDF at a time. Attach the zip file to the message and specify which file should be converted, e.g., `main.tex`.
 
+| Attachment | Text | Description |
+|------------|------|-------------|
+| file.zip   | main.tex | Convert main.tex from file.zip into a pdf|
+| file.zip   | main.tex log | Converts main.tex to pdf and sends log file |
+
+
+
