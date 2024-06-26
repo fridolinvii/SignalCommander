@@ -108,3 +108,4 @@ rm -r $SCRIPT_DIR/tmp/*
 
 # delete downloaded attachments
 rm -r "$ATTACHMENT"*
+
