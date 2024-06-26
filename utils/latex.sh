@@ -35,17 +35,26 @@ while IFS= read -r message_line; do
         unzip -d $SCRIPT_DIR"/tmp/LATEX"  $ATTACHMENT*.zip
         # Compile the latex file
         cd $SCRIPT_DIR"/tmp/LATEX"
-        #output=$(pdflatex -interaction=nonstopmode $message_line 2>&1)
-        output=$(latexmk -f -pdf -interaction=nonstopmode $message_line 2>&1)
-
-        if echo "$output" | grep -q "no output PDF file produced!"; then
-            echo "A fatal error may occurred during LaTeX compilation."
-            signal-cli send -g "$group_id_latex" -m "[Bot] A fatal error may occurred during LaTeX compilation." -a $SCRIPT_DIR"/tmp/LATEX"/"${message_line%.tex}.log"
+        file_path=$(find . -name "Thesis_Carla.tex" -exec dirname {} \;)
+        if [ -z "$file_path" ]; then
+          echo "No such file found."
         else
-            echo "LaTeX compilation completed successfully."
-            signal-cli send -g $group_id_latex -m "[Bot] Here is your PDF" -a $SCRIPT_DIR"/tmp/LATEX"/"${message_line%.tex}.pdf"
+          echo "File found in directory: $file_path"
+          cd $file_path
+          pwd
+          
+          #output=$(pdflatex -interaction=nonstopmode $message_line 2>&1)
+          output=$(latexmk -f -pdf -interaction=nonstopmode $message_line 2>&1)
+
+          if echo "$output" | grep -q "no output PDF file produced!"; then
+              echo "A fatal error may occurred during LaTeX compilation."
+              signal-cli send -g "$group_id_latex" -m "[Bot] A fatal error may occurred during LaTeX compilation." -a "${message_line%.tex}.log"
+          else
+              echo "LaTeX compilation completed successfully."
+              signal-cli send -g $group_id_latex -m "[Bot] Here is your PDF" -a "${message_line%.tex}.pdf"
+          fi
         fi
-        cd -
+        cd $SCRIPT_DIR
 
       else
         echo "Multiple .zip files found."

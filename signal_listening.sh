@@ -51,7 +51,7 @@ message=$(cat $RECEIVED_MESSAGES_FILE)
 if [ -z "$message" ]; then
   echo "No message found"
   rm $RECEIVED_MESSAGES_FILE
-  # exit 1
+  exit 1
 fi
 
 

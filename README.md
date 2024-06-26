@@ -106,7 +106,7 @@ sudo systemctl start transmission-daemon
 ### 1.5  Compatibility
 Install LaTeX on the server
 ```
-sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-xetex texlive-science -y
+sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-xetex texlive-science texlive-bibtex-extra -y
 sudo apt install latexmk -y
 ```
 
