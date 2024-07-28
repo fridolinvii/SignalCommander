@@ -55,26 +55,27 @@ if [ -z "$message" ]; then
 fi
 
 
-# Use jq to filter messages based on group IDs
 jq -r --argjson groupIds "$TARGET_GROUP_ID" '
-.envelope.dataMessage | select(.groupInfo.groupId as $gid | $groupIds | index($gid) != null) | {message: .message, groupId: .groupInfo.groupId} | @base64
+  .envelope |
+  if .syncMessage != null and (.syncMessage.sentMessage.groupInfo.groupId // "" | IN($groupIds[])) then
+    {message: .syncMessage.sentMessage.message, groupId: .syncMessage.sentMessage.groupInfo.groupId}
+  elif .dataMessage != null and (.dataMessage.groupInfo.groupId // "" | IN($groupIds[])) then
+    {message: .dataMessage.message, groupId: .dataMessage.groupInfo.groupId}
+  else
+    empty
+  end
 ' $RECEIVED_MESSAGES_FILE | while IFS= read -r line; do
-
-  # Decode the base64 line into a JSON object
-  json=$(echo "$line" | base64 --decode)
-
-  # Extract the message and groupId from the JSON object
-  message=$(echo "$json" | jq -r '.message')
-  groupId=$(echo "$json" | jq -r '.groupId')
-
-  # Append the message to the general URL file
-  echo "$message" >> "$URL"
-
-  # Append the message to the corresponding groupId file
-  echo "$groupId" >> "$GROUP_ID_URL"
-
-  # Display the short message
-  echo "Message: ${message:0:30}"
+    echo $line
+    if [[ $line == *"message"* ]]; then
+        url=${line#*'message": "'}
+        url=${url%'",'*}
+        echo $url >> "$URL"
+        echo "Message: ${url:0:30}"
+    elif [[ $line == *"groupId"* ]]; then
+        groupid=${line#*'groupId": "'}
+        groupid=${groupid%'"'*}
+        echo $groupid >> "$GROUP_ID_URL"
+    fi
 done
 
 # Check if the message is a help message and send the cheatsheet to the corresponding group ID
