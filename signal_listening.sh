@@ -57,7 +57,7 @@ fi
 
 # Use jq to filter messages based on group IDs
 jq -r --argjson groupIds "$TARGET_GROUP_ID" '
-  .envelope.syncMessage.sentMessage | select(.groupInfo.groupId as $gid | $groupIds | index($gid) != null) | {message: .message, groupId: .groupInfo.groupId} | @base64
+.envelope.dataMessage | select(.groupInfo.groupId as $gid | $groupIds | index($gid) != null) | {message: .message, groupId: .groupInfo.groupId} | @base64
 ' $RECEIVED_MESSAGES_FILE | while IFS= read -r line; do
 
   # Decode the base64 line into a JSON object
@@ -108,4 +108,3 @@ rm -r $SCRIPT_DIR/tmp/*
 
 # delete downloaded attachments
 rm -r "$ATTACHMENT"*
-
