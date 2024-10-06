@@ -18,6 +18,7 @@ RECEIVED_MESSAGES_FILE=$SCRIPT_DIR"/tmp/received_messages.json"
 # commands and url extract from signal
 URL=$SCRIPT_DIR"/tmp/url.txt"
 GROUP_ID_URL=$SCRIPT_DIR"/tmp/group_id.txt"
+NAME_ID_URL=$SCRIPT_DIR"/tmp/name.txt"
 # cheatsheet file
 CHEATSHEET_FILE=$SCRIPT_DIR"/cheatsheet.html"
 # Attachment saved
@@ -58,9 +59,9 @@ fi
 jq -r --argjson groupIds "$TARGET_GROUP_ID" '
   .envelope |
   if .syncMessage != null and (.syncMessage.sentMessage.groupInfo.groupId // "" | IN($groupIds[])) then
-    {message: .syncMessage.sentMessage.message, groupId: .syncMessage.sentMessage.groupInfo.groupId}
+    {message: .syncMessage.sentMessage.message, groupId: .syncMessage.sentMessage.groupInfo.groupId, name: .sourceName}
   elif .dataMessage != null and (.dataMessage.groupInfo.groupId // "" | IN($groupIds[])) then
-    {message: .dataMessage.message, groupId: .dataMessage.groupInfo.groupId}
+    {message: .dataMessage.message, groupId: .dataMessage.groupInfo.groupId, name: .sourceName}
   else
     empty
   end
@@ -75,6 +76,10 @@ jq -r --argjson groupIds "$TARGET_GROUP_ID" '
         groupid=${line#*'groupId": "'}
         groupid=${groupid%'"'*}
         echo $groupid >> "$GROUP_ID_URL"
+    elif [[ $line == *"name"* ]]; then
+        nameid=${line#*'name": "'}
+        nameid=${nameid%'"'*}
+        echo $nameid >> "$NAME_ID_URL"
     fi
 done
 

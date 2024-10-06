@@ -47,8 +47,11 @@ while IFS= read -r message_line; do
   
   # check if "magnet" is in message_line
   if [[ $message_line == *"magnet"* ]]; then
+      download_path_name=$(sed "${line_number}q;d" "$NAME_ID_URL")
+      download_path=$TORRENT_DOWNLOAD_DIR"/$download_path_name"
+      mkdir -p $download_path
       echo "Downloading: "${message_line:0:10}...${message_line: -2}"" >> $LOG_FILE
-      transmission-remote --add "$message_line" >> $LOG_FILE
+      transmission-remote --add "$message_line"  --download-dir "$download_path" >> $LOG_FILE
       sleep 1
       send_transmission=true
       group_id_torrent=$(sed "${line_number}q;d" "$GROUP_ID_URL")
