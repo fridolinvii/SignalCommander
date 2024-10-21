@@ -4,3 +4,8 @@ tmp/
 todo.txt
 test*
 *.lock
+received_messages.json
+nohup.out
+**/__pycache__
+utils/_api/*
+venv*

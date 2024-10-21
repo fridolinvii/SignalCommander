@@ -108,6 +108,12 @@ source $SCRIPT_DIR"/utils/torrent.sh"
 # latex
 source $SCRIPT_DIR"/utils/latex.sh"
 
+# Show and Delete files
+source $SCRIPT_DIR"/utils/files.sh"
+
+# Download files
+source $SCRIPT_DIR"/utils/download.sh"
+
 ################################################################
 # remove the received messages file from tmp
 rm -r $SCRIPT_DIR/tmp/*

@@ -131,26 +131,36 @@ and add a following line:
 ```
 Change the *PATH* accordingly. A logfile is created under the name `signal_listening_crontab.log`. Every 5min the bash-script is executed.
 
+## 2. Download Files
+```
+sudo apt install p7zip-full
+python -m venv venv
+source venv/bin/activate
+pip install flask
+pip install gunicorn
 
-## 2. Commands
+```
+
+
+## 3. Commands
 In the Signal Group you created, you can send commands, which will be read and executed. You will recieve a txt file with with the report.
 Each message should only contain one command, or an error may arrise. If you don't recieve a message, either the command is unvalid or there is an error.
 
-### 2.1 General Commands
+### 3.1 General Commands
 | Command        | Description                            |
 |----------------|----------------------------------------|
 | `help`         | Display available commands.            |
 
 
-### 2.2 Torrent Commands
+### 3.2 Torrent Commands
 | Command         | Description                            |
 |-----------------|----------------------------------------|
 | `magnet:?xt=...`| Download torrent using a magnet link.  |
 | `status`        | Check the status of current torrents.  |
 | `delete_all`    | Delete all torrents.                   |
-| `delete_2,3`    | Delete torrents 2 and 3.               |
+| `delete_1-3,5`  | Delete torrents 1-3, and 5.            |
 
-### 2.3 LaTeX Commands
+### 3.3 LaTeX Commands
 Only one zip file can be converted to a PDF at a time. Attach the zip file to the message and specify which file should be converted, e.g., `main.tex`.
 
 | Attachment | Text | Description |
@@ -158,5 +168,17 @@ Only one zip file can be converted to a PDF at a time. Attach the zip file to th
 | file.zip   | main.tex | Convert main.tex from file.zip into a pdf|
 | file.zip   | main.tex log | Converts main.tex to pdf and sends log file |
 
+### 3.4 Show and Delete Files
+| Command               | Description                            |
+|-----------------------|----------------------------------------|
+| `files_`              | Show your files and folders.           |
+| `files_delete_1`      | Delete file/folder number 1.           |
+| `files_delete_1-3,5`  | Delete file/folder number 1-3, and 5.  |
+| `files_delete_all`    | Delete all files and folders.          |
 
 
+### 3.4 Download Files
+| Command               | Description                              |
+|-----------------------|------------------------------------------|
+| `download_1`          | Download file/folder number 1.           |
+| `download_1-3,5`      | Download file/folder number 1-3, and 5.  |

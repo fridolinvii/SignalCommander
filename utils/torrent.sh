@@ -1,4 +1,4 @@
-#bin/bash
+#!/bin/bash
 
 
 #################################################################
@@ -59,7 +59,7 @@ while IFS= read -r message_line; do
 
   ###########################################################################
   # check if delete is in the file
-  if [[ $message_line == *"delete_"* ]]; then
+  if [[ $message_line == "delete_"* ]]; then
     tokenid=$(echo $message_line | grep -oP 'delete_\K.*')
     echo "Deleting torrents with tokenid: $tokenid" >> $LOG_FILE
     transmission-remote -t $tokenid -r
@@ -69,7 +69,7 @@ while IFS= read -r message_line; do
     group_id_torrent=$(sed "${line_number}q;d" "$GROUP_ID_URL")
   fi
 
-  if [[ $message_line == *"status"* ]]; then
+  if [[ $message_line == "status" ]]; then
     echo "Checking status of torrents" >> $LOG_FILE
     transmission-remote -l >> $LOG_FILE
     send_transmission=true

@@ -1,4 +1,4 @@
-#bin/bash
+#!/bin/bash
 
 
 
@@ -15,7 +15,7 @@ send_transmission=false
 line_number=1
 while IFS= read -r message_line; do
   # Display the message
-  echo "Message in torrent.sh: $message_line"
+  echo "Message in latex.sh: $message_line"
   group_id_latex=$(sed "${line_number}q;d" "$GROUP_ID_URL")
   # Start the download with transmission-cli
   
