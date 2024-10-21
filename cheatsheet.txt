@@ -26,3 +26,20 @@ Only one zip file can be converted to a PDF at a time. Attach the zip file to th
 | file.zip   | main.tex     | Convert main.tex from file.zip into a pdf   |
 | file.zip   | main.tex log | Converts main.tex to pdf and sends log file |
 |-------------------------------------------------------------------------|
+
+## Show and Delete Files
+| Command               | Description                            |
+|-----------------------|----------------------------------------|
+| `files_`              | Show your files and folders.           |
+| `files_delete_1`      | Delete file/folder number 1.           |
+| `files_delete_1-3,5`  | Delete file/folder number 1-3, and 5.  |
+| `files_delete_all`    | Delete all files and folders.          |
+
+
+## Download Files
+| Command               | Description                              |
+|-----------------------|------------------------------------------|
+| `download_1`          | Download file/folder number 1.           |
+| `download_1-3,5`      | Download file/folder number 1-3, and 5.  |
+| `download_status`     | Check Status of SSH and Gunicorn         |
+| `download_stop`       | Stop sharing the link                    |
