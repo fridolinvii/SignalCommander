@@ -139,7 +139,7 @@ __Note:__ The link and the 7z file are only available for a limited time.
 
 - **Local Download** (no additional settings needed)
 - **Global Download with no SSH tunnel** (`PORT_LOCAL` needs to be opened on your router, not recommended)
-- **Global Download with SSH tunnel** (external server required, see installation guide [here](ADD_DESCRIPTION))
+- **Global Download with SSH tunnel** (external server required, see installation guide [here](https://github.com/fridolinvii/ssh-container-https))
     - Be sure that you are using the same `PORT_SSH` and `PORT_GLOBAL` on your server!
 
 Install 7z

@@ -87,7 +87,16 @@ while IFS= read -r message_line; do
             download_path_name=$(sed "${line_number}q;d" "$NAME_ID_URL")
             download_path=$TORRENT_DOWNLOAD_DIR"/$download_path_name"
 
-            tokenid=$(echo $message_line | grep -oP 'download_\K.*')
+            _tokenid=$(echo $message_line | grep -oP 'download_\K.*')
+            # Extract time
+            if [[ "$_tokenid" == *_* ]]; then
+              UPTIME=$(echo $_tokenid | grep -oP '_\K.*')
+            fi
+            tokenid="${_tokenid%%_*}"
+
+
+
+
             echo ZIP: $tokenid
             
             # Get the list of files and store them in an array
