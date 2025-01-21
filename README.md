@@ -197,9 +197,10 @@ Only one zip file can be converted to a PDF at a time. Attach the zip file to th
 
 ### 2.5 Download Files
 Through an ssh tunnel, a download link is created.
-| Command               | Description                              |
-|-----------------------|------------------------------------------|
-| `download_1`          | Download file/folder number 1.           |
-| `download_1-3,5`      | Download file/folder number 1-3, and 5.  |
-| `download_status`     | Check Status of SSH and Gunicorn         |
-| `download_stop`       | Stop sharing the link                    |
+| Command               | Description                                    |
+|-----------------------|------------------------------------------------|
+| `download_1`          | Download file/folder number 1.                 |
+| `download_1_120m`     | Download file/folder number 1. Link open 120m  |
+| `download_1-3,5`      | Download file/folder number 1-3, and 5.        |
+| `download_status`     | Check Status of SSH and Gunicorn               |
+| `download_stop`       | Stop sharing the link                          |
