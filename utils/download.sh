@@ -141,18 +141,21 @@ while IFS= read -r message_line; do
             echo "port_local = '$PORT_LOCAL'" >> $SCRIPT_DIR/utils/_api/api_variabels.py
 
             ########################################################
-            
+            sleep 10
+
+
             echo "Starting ssh"
             nohup ssh -i $PATH_PRIVATE_KEY -tt -R $PORT_LOCAL:0.0.0.0:$PORT_GLOBAL $DOCKER_USER_NAME@$DOCKER_SITE_ADDRESS -p $PORT_SSH >  $SCRIPT_DIR/ssh.log 2>&1 &
             pid_ssh=$!
-            sleep 10
 
-            
+            sleep 30
+
             echo "Starting gunicorn"
             source $SCRIPT_DIR/$VENV_NAME/bin/activate
             cd $SCRIPT_DIR/utils
             echo "Check if gunicorn is installed: " $(which gunicorn)
-            nohup gunicorn -w 4 -b 0.0.0.0:$PORT_LOCAL api:api >  $SCRIPT_DIR/gunicorn.log 2>&1 &
+            # nohup gunicorn -w 4 -b 0.0.0.0:$PORT_LOCAL api:api >  $SCRIPT_DIR/gunicorn.log 2>&1 &
+            nohup gunicorn -k gevent --workers=4 --timeout=300 -b 0.0.0.0:$PORT_LOCAL app:api > $SCRIPT_DIR/gunicorn.log 2>&1 &
             pid_gunicorn=$!
             sleep 10
             cd $SCRIPT_DIR
@@ -165,7 +168,7 @@ while IFS= read -r message_line; do
             echo SSH: $pid_ssh 
             echo GUNICORN: $pid_gunicorn
 
-            bash -c "(sleep $UPTIME; kill -9 $pid_ssh $pid_gunicorn; rm -r $zip_path)" 44>  $SCRIPT_DIR/kill.log 2>&1 &
+            bash -c "(sleep $UPTIME; kill -9 $pid_ssh $pid_gunicorn; rm -r $zip_path)" >> $SCRIPT_DIR/kill.log 2>&1 &
 
             fi
         fi
