@@ -157,7 +157,7 @@ source venv/bin/activate
 ```
 and install the required packages
 ```bash
-pip install flask gunicorn
+pip install flask gunicorn gevent
 ```
 
 ## 2. Commands

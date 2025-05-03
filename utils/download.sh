@@ -55,9 +55,20 @@ while IFS= read -r message_line; do
             echo "Gunicorn is running" >> $LOG_FILE
             if [[ $message_line == "download_stop" ]]; then          
                 echo "Stopping gunicorn" >> $LOG_FILE  
-                pid_gunicorn=$(ps aux | grep gunicorn  | awk '{print$2}' | head -n 1)
-                echo "Killing Gunicorn with PID: $pid_gunicorn"
-                kill -9 $pid_gunicorn
+#                pid_gunicorn=$(ps aux | grep gunicorn  | awk '{print$2}' | head -n 1)
+#                echo "Killing Gunicorn with PID: $pid_gunicorn"
+ #               kill -9 $pid_gunicorn
+                # Get all PIDs of gunicorn processes
+                pid_gunicorn=$(ps aux | grep gunicorn | grep -v grep | awk '{print $2}')
+
+                # Kill the processes
+                if [ -n "$pid_gunicorn" ]; then
+                  echo "$pid_gunicorn" | xargs kill -9
+                  echo "Killed all gunicorn processes: $pid_gunicorn"
+                else
+                  echo "No gunicorn processes found."
+                fi
+
             fi  
         else
             echo "Gunicorn is not running." >> $LOG_FILE
@@ -81,6 +92,7 @@ while IFS= read -r message_line; do
         then
             # If gunicorn is running, do something
             echo "Gunicorn is already running. Can not generate Link." > $LOG_FILE
+            echo "To Stop send: download_stop" >> $LOG_FILE
             echo "Gunicorn is already running. Can not generate Link." 
         else
             signal-cli send -g $group_id_files -m "[Bot] Creating Link. This may take a while."
@@ -111,10 +123,15 @@ while IFS= read -r message_line; do
             # Loop over comma-separated values in tokenid
             IFS=',' read -ra entries <<< "$tokenid"
             for entry in "${entries[@]}"; do
+                echo "entry: $entry"
                 # Expand the range and loop over the expanded values
                 for index in $(expand_range $entry); do
+                    echo "index: $index"
                     # Extract the file name corresponding to the current index
-                    selected_text=$(echo "$index_list" | awk -v i="$index" '$1 == i {print $2}')
+                    selected_text=$(echo "$index_list" | awk -v i="$index" '$1 == i { $1=""; sub(/^ /, ""); print }')
+
+                    echo "index_list: $index_list"
+                    echo "selected_text: $selected_text"
                     
                     # If the file exists, process it
                     if [[ -n $selected_text ]]; then
@@ -123,7 +140,8 @@ while IFS= read -r message_line; do
                         full_file_path="$download_path/$selected_text"
                         
                         # Optionally, uncomment the following line to zip the files
-                        7z a -p$PASSWD -mhe=on "$zip_path/$zip_file" "$full_file_path"
+                        7z a -p"$PASSWD" -mhe=on "$zip_path/$zip_file" "$full_file_path"
+
                     else
                         echo "No file found for index: $index" 
                         echo "No file found for index: $index" >> $LOG_FILE
@@ -145,7 +163,7 @@ while IFS= read -r message_line; do
 
 
             echo "Starting ssh"
-            nohup ssh -i $PATH_PRIVATE_KEY -tt -R $PORT_LOCAL:0.0.0.0:$PORT_GLOBAL $DOCKER_USER_NAME@$DOCKER_SITE_ADDRESS -p $PORT_SSH >  $SCRIPT_DIR/ssh.log 2>&1 &
+            nohup autossh -i $PATH_PRIVATE_KEY -tt -R $PORT_LOCAL:0.0.0.0:$PORT_GLOBAL $DOCKER_USER_NAME@$DOCKER_SITE_ADDRESS -p $PORT_SSH >  $SCRIPT_DIR/ssh.log 2>&1 &
             pid_ssh=$!
 
             sleep 30
@@ -154,13 +172,13 @@ while IFS= read -r message_line; do
             source $SCRIPT_DIR/$VENV_NAME/bin/activate
             cd $SCRIPT_DIR/utils
             echo "Check if gunicorn is installed: " $(which gunicorn)
-            # nohup gunicorn -w 4 -b 0.0.0.0:$PORT_LOCAL api:api >  $SCRIPT_DIR/gunicorn.log 2>&1 &
-            nohup gunicorn -k gevent --workers=4 --timeout=300 -b 0.0.0.0:$PORT_LOCAL app:api > $SCRIPT_DIR/gunicorn.log 2>&1 &
+#            nohup gunicorn -w 4 -b 0.0.0.0:$PORT_LOCAL api:api >  $SCRIPT_DIR/gunicorn.log 2>&1 &
+            nohup gunicorn -w 4 -b 0.0.0.0:$PORT_LOCAL --no-sendfile -t 17280 api:api >  $SCRIPT_DIR/gunicorn.log 2>&1 &
             pid_gunicorn=$!
             sleep 10
             cd $SCRIPT_DIR
 
-            echo $DOCKER_SITE_ADDRESS/$site_address >> $LOG_FILE
+            echo https://$DOCKER_SITE_ADDRESS/$site_address >> $LOG_FILE
             echo Password: $PASSWD  >> $LOG_FILE
             echo "Link is available for $UPTIME" >> $LOG_FILE
             echo "-----------------------------------------------"
