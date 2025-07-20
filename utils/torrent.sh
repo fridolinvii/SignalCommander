@@ -92,6 +92,8 @@ echo "$group_id_torrent"
 
 
 if [[ "$send_transmission" == true ]]; then
+  echo "Sending Message"
+  echo "$group_id_torrent -m  -a $LOG_FILE"
   signal-cli send -g $group_id_torrent -m "[Bot] Here is the Report" -a $LOG_FILE
 fi
 

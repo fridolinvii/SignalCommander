@@ -204,3 +204,21 @@ Through an ssh tunnel, a download link is created.
 | `download_1-3,5`      | Download file/folder number 1-3, and 5.        |
 | `download_status`     | Check Status of SSH and Gunicorn               |
 | `download_stop`       | Stop sharing the link                          |
+
+
+## 3. Troubleshoout
+If you notice, that the messages are not beeing recieved, you may need to trust the sender. 
+Find the ID of the sender with:
+```
+signal-cli --output=json receive
+```
+or 
+
+and copy the part which is similar to:
+```
+c5aysda-2011-411f-a11d-b212312312
+```
+and trust it:
+```
+signal-cli  trust -a c5aysda-2011-411f-a11d-b212312312
+``` 
