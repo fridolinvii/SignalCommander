@@ -8,7 +8,7 @@ In addition, you can send LaTeX files in a zip file and convert them to a PDF.
 
 First Download the Github repository and enter it:
 ```
-git clone git@github.com:fridolinvii/SignalCommander.git
+git clone https://github.com/fridolinvii/SignalCommander.git
 cd SignalCommander
 ```
 
