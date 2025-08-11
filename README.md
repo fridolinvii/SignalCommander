@@ -17,6 +17,30 @@ cd SignalCommander
 I follwed the description to install it from this GitHub repository: [signal-cli](https://github.com/AsamK/signal-cli) and [https://oren.github.io/articles/signal-terminal/](https://oren.github.io/articles/signal-terminal/).
 There are two option you can use signal-cli. Either you register a new phone number or you add it to your **Linked devices** on your phone.
 
+**Note:** If you have dependency problems with `libsignal-client` you can follow the discription from [https://nicolas.nacq.me/](https://nicolas.nacq.me/notes/signal-on-rpi/):
+Search which `libsignal-client` you need with:
+```
+export VERSION="0.11.5.1" # Replace the version number here
+sudo ls /opt/signal-cli-"${VERSION}"/lib/libsignal-client-*
+```
+this will return something similar to:
+```
+/opt/signal-cli-“${VERSION}”/lib/libsignal-client-0.21.1jar
+```
+Export the version:
+```
+export VERSION_LIB_SIGNAL="0.21.1" # Remplace the version number here
+```
+and find it and download it on the website [signal-libs-build](https://github.com/exquo/signal-libs-build/releases).
+Finally, execute:
+```
+sudo zip -d /opt/signal-cli-"${VERSION}"/lib/libsignal-client-"${VERSION_LIB_SIGNAL}".jar libsignal_jni.so
+sudo zip -uj /opt/signal-cli-"${VERSION}"/lib/libsignal-client-"${VERSION_LIB_SIGNAL}".jar libsignal_jni.so
+```
+
+
+
+
 ##### Option 1: Register new number
 You can register your number:
 ```
@@ -52,10 +76,17 @@ TARGET_GROUP_ID='["Id"]'
 If you have multiple groups:
 TARGET_GROUP_ID='["Id1","Id2",...]'
 
+
+**Note:**
+If you just want the username, you can delete all the contacts with:
+```
+./delete_all_contacts.sh
+```
+
 ### 1.3 Install torrent client
 To install the torrent client use
 ```
-sudo apt install transmission-cli transmission-daemon
+sudo apt install transmission-cli transmission-daemon jq
 ```
 
 
@@ -144,7 +175,7 @@ __Note:__ The link and the 7z file are only available for a limited time.
 
 Install 7z
 ```bash
-sudo apt install p7zip-full
+sudo apt install p7zip-full autossh
 ```
 Enter the folder where your Signal-Bot is located.
 Create a virtual environment:

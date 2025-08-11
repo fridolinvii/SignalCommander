@@ -10,6 +10,11 @@ echo "Absolute path to .env:  $SCRIPT_DIR""/.env"
 source $SCRIPT_DIR"/utils/utils.sh"
 
 
+###############################################################
+# Show path for signal-cli
+shopt -s expand_aliases
+alias signal-cli="/usr/local/bin/signal-cli"
+
 #################################################################
 # SET VARIABLES
 #################################################################
