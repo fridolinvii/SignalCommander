@@ -32,7 +32,11 @@ Export the version:
 export VERSION_LIB_SIGNAL="0.21.1" # Remplace the version number here
 ```
 and find it and download it on the website [signal-libs-build](https://github.com/exquo/signal-libs-build/releases).
-Finally, execute:
+Then unzip it 
+```
+tar -xvf libsignal_jni.so-v*.tar.gz
+```
+and finally, execute:
 ```
 sudo zip -d /opt/signal-cli-"${VERSION}"/lib/libsignal-client-"${VERSION_LIB_SIGNAL}".jar libsignal_jni.so
 sudo zip -uj /opt/signal-cli-"${VERSION}"/lib/libsignal-client-"${VERSION_LIB_SIGNAL}".jar libsignal_jni.so
@@ -44,7 +48,11 @@ sudo zip -uj /opt/signal-cli-"${VERSION}"/lib/libsignal-client-"${VERSION_LIB_SI
 ##### Option 1: Register new number
 You can register your number:
 ```
-signal-cli -a [YOUR_NUMBER] register
+signal-cli -a [YOUR_NUMBER] register --captcha [CAPTCHA]
+```
+Where you replace [CAPTCHA] with  the link generated from
+```
+https://signalcaptchas.org/registration/generate.html
 ```
 You will recive a CODE per SMS and you can verify it with the command:
 ```
