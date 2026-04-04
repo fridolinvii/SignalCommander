@@ -25,7 +25,7 @@ sudo ls /opt/signal-cli-"${VERSION}"/lib/libsignal-client-*
 ```
 this will return something similar to:
 ```
-/opt/signal-cli-“${VERSION}”/lib/libsignal-client-0.21.1jar
+/opt/signal-cli-“${VERSION}”/lib/libsignal-client-0.21.1.jar
 ```
 Export the version:
 ```
